@@ -51,51 +51,6 @@
 				"type": "function"
 			},
 			{
-				"inputs": [
-					{
-						"internalType": "uint256",
-						"name": "ethAmount",
-						"type": "uint256"
-					}
-				],
-				"name": "getConversionRate",
-				"outputs": [
-					{
-						"internalType": "uint256",
-						"name": "",
-						"type": "uint256"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [],
-				"name": "getPrice",
-				"outputs": [
-					{
-						"internalType": "uint256",
-						"name": "",
-						"type": "uint256"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [],
-				"name": "getVersion",
-				"outputs": [
-					{
-						"internalType": "uint256",
-						"name": "",
-						"type": "uint256"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
 				"inputs": [],
 				"name": "minUSD",
 				"outputs": [
@@ -136,6 +91,14 @@
 		"remappings": []
 	},
 	"sources": {
+		"/PriceConverter.sol": {
+			"keccak256": "0xbfcd66ffc6d8d002e4267e0cd1aaddf1e00a2c1d6ee32070e03c3c5133130400",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://6e18378a4c246d5345d79d4333e850f0cae038d6a15861d9835c3e1f8ce7e0be",
+				"dweb:/ipfs/QmfLwTcB8ZBD89T3yM3P13orYfrS6DgZvCH5wHtUGdYezm"
+			]
+		},
 		"@chainlink/contracts/src/v0.8/shared/interfaces/AggregatorV3Interface.sol": {
 			"keccak256": "0x257a8d28fa83d3d942547c8e129ef465e4b5f3f31171e7be4739a4c98da6b4f0",
 			"license": "MIT",
@@ -145,11 +108,11 @@
 			]
 		},
 		"Fundme.sol": {
-			"keccak256": "0x47b44266f093e263df252ab60455721580718dc6d3708714ed89ef3c88bdd45d",
+			"keccak256": "0x73b25fc192a51c5e37c7f555c628688c53b20eff9d1490011ed3e047b7386ebc",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://014e685171f05b951c203e3e69462424de95cd37ba6b426bc3a10774f749b526",
-				"dweb:/ipfs/QmbknQBjnhdemARouebQE3v7yUksdgxFtwKadsfXAZ1nXT"
+				"bzz-raw://45e5374d3c557b826f067302a5c34fcabeeed5cf845f976b260507d99848ead2",
+				"dweb:/ipfs/QmU3vcTX3vVeKpeftVdh9pyP24wpUwuAsuKkho7Nw5RsRf"
 			]
 		}
 	},
