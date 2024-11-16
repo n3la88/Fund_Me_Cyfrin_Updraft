@@ -3,27 +3,34 @@ pragma solidity ^0.8.18;
 
 import {PriceConverter} from "/PriceConverter.sol";
 
+//Transaction cost when deploying contract 782,820
+//constant and immutable
+//when adding constant the Transaction cost goes to 761,223
 contract FundMe {
 
     using PriceConverter for uint256;
 
-    uint256 public minUSD = 5 * 1e10; // or  uint256 public minUSD = 5e10
-
+    uint256 public constant MINIMUM_USD = 5 * 1e10; // or  uint256 public minUSD = 5e10
+    //execution cost 2446 gas - constant
+    //excution cost 347 gas - non-constant
+    
     address[] public funders;
     mapping(address funder => uint256 amountFunded) public addressToAmountFunded;
 
-    address public owner;
+    address public immutable i_owner;
+    //execution cost 761,199 gas - immutable
+    //excution cost 636,730 gas - non-immutable
 
     //Function that is called inmediately 
     constructor() {
-        owner = msg.sender;
+        i_owner = msg.sender;
     }
 
     function fund() public payable{
         //allow users to send $5
         //have a minimum $ to send
         
-        require(msg.value.getConversionRate() >= minUSD, "Did not send enough ETH"); // 1e18 = 1 ETH = 1000000000000000000 = 1 *10 ** 18
+        require(msg.value.getConversionRate() >= MINIMUM_USD, "Did not send enough ETH"); // 1e18 = 1 ETH = 1000000000000000000 = 1 *10 ** 18
         // 
         funders.push(msg.sender);
         addressToAmountFunded[msg.sender] = addressToAmountFunded[msg.sender] + msg.value;
@@ -54,9 +61,9 @@ contract FundMe {
         require(callSuccess, "Call failed");
     }
 
-    //Instead of adding to each function this code: require(msg.sender == owner, "Must be the owner!"); we can use a modifier
+    //Instead of adding to each function this code: require(msg.sender == i_owner, "Must be the owner!"); we can use a modifier
     modifier onlyOwner() {
-        require(msg.sender == owner, "Sender is not the owner");
+        require(msg.sender == i_owner, "Sender is not the owner");
         _; //whatever else is in the function
     }
 
