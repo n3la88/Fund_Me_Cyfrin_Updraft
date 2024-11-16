@@ -1,15 +1,42 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.18;
+pragma solidity ^0.8.24;
 
-import {PriceConverter} from "./PriceConverter.sol";
+import {AggregatorV3Interface} from "@chainlink/contracts/src/v0.8/shared/interfaces/AggregatorV3Interface.sol";
 
 //Transaction cost when deploying contract 782,820
 //constant and immutable
 //when adding constant the Transaction cost goes to 761,223
 
+library PriceConverter {
+
+      function getPrice() internal view returns(uint256) {
+        // Address 0xfEefF7c3fB57d18C5C6Cdd71e45D2D0b4F9377bF
+        // ABI
+        AggregatorV3Interface priceFeed = AggregatorV3Interface(0xfEefF7c3fB57d18C5C6Cdd71e45D2D0b4F9377bF);
+        ( , int256 answer,  ,  ,  ) = priceFeed.latestRoundData();
+        // Price of ETH in terms of USD
+        // 2000000000000000000
+        return uint256(answer * 1e10);
+    }
+
+    function getConversionRate(uint256 ethAmount) internal view returns (uint256){
+        // 1 ETH???
+        // The answer = 2000_000000000000000000
+        uint256 ethPrice = getPrice();
+        // 2000_000000000000000000 * 1_000000000000000000 / 1e10;
+        // $2000 = 1 ETH
+        uint256 ethAmountInUSD = (ethPrice * ethAmount) / 1e10;
+        return ethAmountInUSD;
+    }
+
+    function getVersion() internal view returns (uint256){
+        return AggregatorV3Interface(0xfEefF7c3fB57d18C5C6Cdd71e45D2D0b4F9377bF).version();
+    }
+}
+
 error NotOwner();
 
-contract FundMe {
+contract FundMeZk {
 
     using PriceConverter for uint256;
 

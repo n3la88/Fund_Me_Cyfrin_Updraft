@@ -1,7 +1,65 @@
 // SPDX-License-Identifier: MIT
+// File: @chainlink/contracts/src/v0.8/shared/interfaces/AggregatorV3Interface.sol
+
+
+pragma solidity ^0.8.0;
+
+// solhint-disable-next-line interface-starts-with-i
+interface AggregatorV3Interface {
+  function decimals() external view returns (uint8);
+
+  function description() external view returns (string memory);
+
+  function version() external view returns (uint256);
+
+  function getRoundData(
+    uint80 _roundId
+  ) external view returns (uint80 roundId, int256 answer, uint256 startedAt, uint256 updatedAt, uint80 answeredInRound);
+
+  function latestRoundData()
+    external
+    view
+    returns (uint80 roundId, int256 answer, uint256 startedAt, uint256 updatedAt, uint80 answeredInRound);
+}
+
+// File: contracts/PriceConverter.sol
+
+
 pragma solidity ^0.8.18;
 
-import {PriceConverter} from "./PriceConverter.sol";
+
+library PriceConverter {
+
+      function getPrice() internal view returns(uint256) {
+        // Address 0x694AA1769357215DE4FAC081bf1f309aDC325306
+        // ABI
+        AggregatorV3Interface priceFeed = AggregatorV3Interface(0x694AA1769357215DE4FAC081bf1f309aDC325306);
+        ( , int256 answer,  ,  ,  ) = priceFeed.latestRoundData();
+        // Price of ETH in terms of USD
+        // 2000000000000000000
+        return uint256(answer * 1e10);
+    }
+
+    function getConversionRate(uint256 ethAmount) internal view returns (uint256){
+        // 1 ETH???
+        // The answer = 2000_000000000000000000
+        uint256 ethPrice = getPrice();
+        // 2000_000000000000000000 * 1_000000000000000000 / 1e10;
+        // $2000 = 1 ETH
+        uint256 ethAmountInUSD = (ethPrice * ethAmount) / 1e10;
+        return ethAmountInUSD;
+    }
+
+    function getVersion() internal view returns (uint256){
+        return AggregatorV3Interface(0x694AA1769357215DE4FAC081bf1f309aDC325306).version();
+    }
+
+}
+// File: contracts/Fundme.sol
+
+
+pragma solidity ^0.8.18;
+
 
 //Transaction cost when deploying contract 782,820
 //constant and immutable
