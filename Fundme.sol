@@ -6,6 +6,9 @@ import {PriceConverter} from "/PriceConverter.sol";
 //Transaction cost when deploying contract 782,820
 //constant and immutable
 //when adding constant the Transaction cost goes to 761,223
+
+error NotOwner();
+
 contract FundMe {
 
     using PriceConverter for uint256;
@@ -63,7 +66,9 @@ contract FundMe {
 
     //Instead of adding to each function this code: require(msg.sender == i_owner, "Must be the owner!"); we can use a modifier
     modifier onlyOwner() {
-        require(msg.sender == i_owner, "Sender is not the owner");
+      //  require(msg.sender == i_owner, "Sender is not the owner");
+      // to save gas we can use the error
+      if(msg.sender != i_owner){revert NotOwner();}
         _; //whatever else is in the function
     }
 
